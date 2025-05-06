@@ -78,6 +78,28 @@ def deal(message):
         stats['error']+=1  #Handle unknown information
         return"020 ERR unknown cmd"
     
+    def report():
+        while True:
+            time.sleep(10)
+            print(f"Clients: {stats['clients']},Ops:{stats['ops']}, READ: {stats['read']},GET:{stats['get']},PUT:{stats['put']},ERR:{stats['error']}")
+
+    def main():
+        import sys
+        if len(sys.argv) !=2:
+            print("python server.py <port>")
+            return
+        port = int(sys.argv[1])
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.bind(('0.0.0.0',port))
+        s.listen()
+        thhreading.Thread(target=report, deamon=True).start()
+        while True:
+            conn, addr = s.accept()
+            threading.Thread(target=handle_client, args=(conn, addr)).start()
+
+    if __name__ == "__main__":
+        main() 
+    
             
 
     
