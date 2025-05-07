@@ -4,13 +4,13 @@ import os
 
 # This function turns a line from the input file into a message string for the server 
 def make(line):
-    parts = line.strip().split('',2)  #split into at most 3 parts
+    parts = line.strip().split(' ', 2)  #split into at most 3 parts
    
    # handle PUT command 
     if parts[0] == 'PUT' and len(parts) == 3:
         k = parts[1]
         v = parts[2]
-        if len(k) + len(v) + 1 >970:
+        if len(k) + len(v) + 1 > 970:
             return None
         return f"{len(k)+len(v)+7:03} P {k} {v}"
     
@@ -54,5 +54,6 @@ def main():
 
 
 # run the main function
-    if __name__ == "__main__":
-        main()        
+if __name__ == "__main__":
+    main()
+   
