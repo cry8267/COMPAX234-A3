@@ -33,13 +33,15 @@ def handle_client(conn,addr):
 def deal(message):
     try:
         # discard length prefix
-        if len(message) < 4:
+        if len(message) < 4 or not message[:3].isdigit() or message[3] !=' ':
+            stats['error'] += 1
             return "020 ERR bad format"
         
         message = message[4:]  # remove NNN and space
         parts = message.split(' ', 2)
 
         if len(parts) < 2:
+            stats['error'] += 1
             return "020 ERR bad format"
         
         cmd = parts[0]

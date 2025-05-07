@@ -10,19 +10,24 @@ def make(line):
     if parts[0] == 'PUT' and len(parts) == 3:
         k = parts[1]
         v = parts[2]
-        if len(k) + len(v) + 1 > 970:
-            return None
-        return f"{len(k)+len(v)+7:03} P {k} {v}"
+        msg = f"P {k} {v}"
     
     # handle READ command,just needs key
     elif parts[0] == 'READ' and len(parts) == 2:
-        return f"{len(parts[1])+6:03} R {parts[1]}"
+        k = parts[1]
+        msg = f"R {k}"
     
     # handle GET command,just needs key 
     elif parts[0] == 'GET' and len(parts) == 2:
-        return f"{len(parts[1])+6:03} G {parts[1]}"
+        k = parts[1]
+        msg = f"G {k}"
     else:  # anything else is invalid
         return None
+    
+    total_len = 3 + 1 +len(msg)  #Include NNN + 1 space
+    if total_len >999:
+        return None
+    return f"{total_len:03d} {msg}"
     
 # this is the main function
 def main():
